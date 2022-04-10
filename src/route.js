@@ -29,7 +29,7 @@ export class Route {
             return onSuccess(response)
         }).catch(error => {
             const errors = {}
-            if (error.response.status === 422) {
+            if (error.response?.status === 422) {
                 const responseErrors = error.response.data.errors
                 Object.keys(responseErrors).forEach((name) => {
                     errors[name] = responseErrors[name][0]
