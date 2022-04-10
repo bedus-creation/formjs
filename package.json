@@ -7,11 +7,9 @@
     "unpkg": "dist/index.umd.js",
     "typings": "index.d.ts",
     "scripts": {
-        "test": "vitest",
-        "coverage": "vitest run --coverage",
         "build": "yarn run clean && yarn run build:cjs && yarn run build:umd",
         "build:cjs": "microbundle --format cjs",
-        "build:umd": "microbundle --format umd --name InertiaVue --globals vue=Vue,@inertiajs/inertia=Inertia",
+        "build:umd": "microbundle --format umd --name formjs --globals vue=Vue,",
         "clean": "rm -rf dist",
         "prepublishOnly": "yarn run build",
         "watch": "microbundle watch --format cjs"
@@ -41,6 +39,7 @@
         "@vue/vue3-jest": "^27.0.0-alpha.4",
         "lodash.clonedeep": "^4.5.0",
         "lodash.isequal": "^4.5.0",
-        "ts-node": "^10.7.0"
+        "ts-node": "^10.7.0",
+        "vue-tsc": "^0.34.1"
     }
 }

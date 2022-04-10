@@ -1,0 +1,25 @@
+{
+    "compilerOptions": {
+        "rootDir": "src",
+        "noEmitOnError": true,
+
+        "target": "esnext",
+        "types": ["node"],
+
+        "declaration": true,
+        "declarationDir": "types",
+
+        "module": "esnext",
+        "moduleResolution": "Node",
+        "resolveJsonModule": true,
+        "allowSyntheticDefaultImports": true,
+
+        "noImplicitThis": false,
+        "noUnusedLocals": true,
+        "noUnusedParameters": true,
+        "preserveConstEnums": true,
+        "removeComments": true,
+        "typeRoots": ["./node_modules/@types"],
+        "strict": true
+    }
+}

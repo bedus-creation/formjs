@@ -1,13 +1,16 @@
 import cloneDeep from "lodash.clonedeep"
 import isEqual from "lodash.isequal"
 import { reactive, watch } from "vue"
+import { Route } from "./route"
 
 export default function useForm(...args) {
     const data = (typeof args[0] === "string" ? args[1] : args[0]) || {}
     const defaults = cloneDeep(data)
     let transform = data => data
+    const Http = new Route()
 
     const form = reactive({
+        ...data,
         errors: {},
         isDirty: false,
         processing: false,
@@ -25,6 +28,20 @@ export default function useForm(...args) {
                     carry[key] = this[key]
                     return carry
                 }, {})
+        },
+
+        defaults(key, value) {
+            if (typeof key === 'undefined') {
+                defaults = this.data()
+            } else {
+                defaults = Object.assign(
+                    {},
+                    cloneDeep(defaults),
+                    value ? ({ [key]: value }) : key,
+                )
+            }
+
+            return this
         },
 
         setError(key, value) {
@@ -68,24 +85,51 @@ export default function useForm(...args) {
         },
 
         submit(method, url, options = {}) {
-            form.processing = true
+            this.processing = true
             const data = transform(this.data())
 
-            const {
-                onSuccess,
-                onError,
-                onFinish,
-            } = options
-            // if (error.response.status === 422) {
-            //     const errors = error.response.data.errors
-            //     Object.keys(errors).forEach((name) => {
-            //         form.setError(name, errors[name][0])
-            //     })
-            // }
+            const _options = {
+                ...options,
+                onSuccess: async response => {
+                    this.processing = false
+                    const onSuccess = options.onSuccess ? await options.onSuccess(response) : null
+                    this.isDirty = false
+                    return onSuccess
+                },
+                onError: errors => {
+                    this.processing = false
+                    this.clearErrors().setError(errors)
+                    if (options.onError) {
+                        return options.onError(errors)
+                    }
+                },
+                onFinish: () => {
+                    this.processing = false
+                    if (options.onFinish) {
+                        return options.onFinish()
+                    }
+                },
+            }
+            if (method === "delete") {
+                Inertia.delete(url, { ..._options, data })
+            } else {
+                Http[method](url, data, _options)
+            }
+        },
+        get(url, options) {
+            this.submit("post", url, options)
         },
 
         post(url, options) {
             this.submit("post", url, options)
+        },
+
+        put(url, options) {
+            this.submit("put", url, options)
+        },
+
+        delete(url, options) {
+            this.submit("delete", url, options)
         },
     })
 
