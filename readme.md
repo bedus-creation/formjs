@@ -1,5 +1,11 @@
 # Form Js
 
+### Installation
+
+```bash
+yarn add vue3-formjs
+```
+
 ### Forms
 
 Formjs can be used to send form data through api.
