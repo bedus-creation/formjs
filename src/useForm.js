@@ -2,6 +2,8 @@ import cloneDeep from "lodash.clonedeep"
 import isEqual from "lodash.isequal"
 import { reactive, watch } from "vue"
 import { Route } from "./route"
+import { hasFiles } from './files'
+import { objectToFormData } from './formData'
 
 export default function useForm(...args) {
     const data = (typeof args[0] === "string" ? args[1] : args[0]) || {}
@@ -86,7 +88,11 @@ export default function useForm(...args) {
 
         submit(method, url, options = {}) {
             this.processing = true
-            const data = transform(this.data())
+            let data = transform(this.data())
+
+            if ((hasFiles(data)) && !(data instanceof FormData)) {
+                data = objectToFormData(data)
+            }
 
             const _options = {
                 ...options,

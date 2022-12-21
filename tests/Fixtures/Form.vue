@@ -1,5 +1,6 @@
 <template>
     <input v-model="form.email" type="email">
+    <input @input="form.avatar = $event.target.files[0]" type="file">
     <button type="button" @click="store">Submit</button>
 </template>
 
@@ -8,6 +9,7 @@
 
     const form = useForm({
         email: "admin@admin.test",
+        file: null,
     })
 
     const store = () => {
