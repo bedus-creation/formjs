@@ -1,4 +1,5 @@
 # Form Js
+The idea of form data is to make easy form handling as well as API call. This library is highly inspired by the way that [inertiajs](https://inertiajs.com/) handles form and page visit.
 
 ### Installation
 
@@ -20,6 +21,8 @@ Formjs can be used to send form data through api.
         <input id="last_name" v-model="form.last_name"/>
         <label for="email">Email:</label>
         <input id="email" v-model="form.email"/>
+        <label for="email">Avatar:</label>
+        <input type="file" @input="form.avatar = $event.target.files[0]" />
         <button type="submit">Submit</button>
     </form>
 </template>
@@ -33,6 +36,7 @@ Formjs can be used to send form data through api.
                 first_name: null,
                 last_name: null,
                 email: null,
+                avatar: null,
             })
 
             function submit() {

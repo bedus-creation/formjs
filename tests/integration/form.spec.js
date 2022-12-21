@@ -2,9 +2,10 @@ import { mount } from "@vue/test-utils"
 import Form from "../Fixtures/Form"
 import { server, waitForRequest } from "../mocks/server"
 
-beforeAll(() => {
-    server.listen()
-})
+beforeAll(() => server.listen())
+
+afterEach(() => server.resetHandlers())
+afterAll(() => server.close())
 
 test("it correctly updates data and send request", async () => {
     const pendingRequest = waitForRequest("post", "/api/users")
@@ -16,6 +17,7 @@ test("it correctly updates data and send request", async () => {
     const request = await pendingRequest
     expect(request.body).toEqual({
         email: "admin@admin.test",
+        file: null,
     })
 })
 
