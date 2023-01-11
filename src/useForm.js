@@ -7,7 +7,7 @@ import { objectToFormData } from './formData'
 
 export default function useForm(...args) {
     const data = (typeof args[0] === "string" ? args[1] : args[0]) || {}
-    const defaults = cloneDeep(data)
+    let defaults = cloneDeep(data)
     let transform = data => data
     const Http = new Route()
 
