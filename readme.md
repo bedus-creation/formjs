@@ -16,12 +16,12 @@ It's a tool to use to handle form and API calls when building client-side applic
 
 
 ## Installation
-### For Vue 2
+### For Vue 3
 ```bash
 yarn add formjs-vue3
 ```
 
-### For Vue 3
+### For Vue 2
 ```bash
 yarn add formjs-vue3
 ```
@@ -104,7 +104,7 @@ For convenience, the `get()`, `post()` and `put()` methods all accept data as th
 formjs provides four different callbacks `onSuccess`, `onErrors`, `onError` and `onFinish` to handle the API responses. 
 
 #### onSuccess
-It is called when response status is in 200 (success) range. It gets response as callback argument.
+It is called when response status is in the 200 (success) range. It gets response as a callback argument.
 ```vue
 <script setup>
     import { http } from "formjs-vue3"
@@ -118,7 +118,7 @@ It is called when response status is in 200 (success) range. It gets response as
 ```
 
 #### onErrors
-formjs provides dedicated callback to handle validation errors. Any API response return with 422 status will be captured by `onErrors` callback. The validation errors response should be in Laravel's [error response format](https://laravel.com/docs/10.x/validation#validation-error-response-format)
+formjs provides a dedicated callback to handle validation errors. Any API response return with status 422 will be captured by `onErrors` callback. The validation errors response should be in Laravel's [error response format](https://laravel.com/docs/10.x/validation#validation-error-response-format)
 ```vue
 <script setup>
     import { http } from "formjs-vue3"
@@ -132,7 +132,7 @@ formjs provides dedicated callback to handle validation errors. Any API response
 ```
 
 #### onError
-It is called when the server return response of 400 to 500 status range. 
+It is called when the server returns a response of 400 to 500 status range. 
 ```vue
 <script setup>
     import { http } from "formjs-vue3"
@@ -182,11 +182,13 @@ The `headers` option allows you to add custom headers to a request.
 
 ### Form
 The primary use case of formjs is to ease the form handling by reducing amount of boilerplate code needed for form submissions.
+
 ```vue
+
 <template>
     <div>
         <input type="email" v-model="form.email">
-        <span v-if="form.errors.email" v-text="form.errors.email"/>
+        <span v-if="form.errors.email" v-text="form.errors.email"></span>
 
         <button type="submit" :disabled="form.processing" @click="submit">Submit</button>
     </div>
@@ -222,19 +224,20 @@ form.post("/users", {
 ```
 
 ### Server Side Validation
-`useForm` composable also provides the `onErrors` callback for 422 status response. The callback shares the same signatures as above define for [http.visit()](https://github.com/JoBinsJP/formjs/tree/improve-docs-1?tab=readme-ov-file#api-responses). 
-Besides that you generally don't require to implement this method manually, as `useForm` automatically maps the errors 
+`useForm` composable also provides the `onErrors` callback for 422 status response. The callback shares the same signatures as above defined for [http.visit()](https://github.com/JoBinsJP/formjs/tree/improve-docs-1?tab=readme-ov-file#api-responses). 
+Besides that you generally don't require implementing this method manually, as `useForm` automatically maps the errors 
 into form. You may access the errors for a field with `form.errors.{field}`. For example, error for an input `email` can access with `form.errors.email`. However, the validation errors response 
 should be in Laravel's [error response format](https://laravel.com/docs/10.x/validation#validation-error-response-format)
 
 ### Frontend validations
-formjs can be used with [yup](https://github.com/jquense/yup) to validate data in frontend side. 
+formjs can be used with [yup](https://github.com/jquense/yup) to validate data in the frontend side.
 
 ```vue
+
 <template>
     <div>
         <input type="email" v-model="form.email" @blur="form.validate('email')">
-        <span v-if="form.errors.email" v-text="form.errors.email"/>
+        <span v-if="form.errors.email" v-text="form.errors.email"></span>
 
         <button type="submit" :disabled="form.processing" @click="submit">Submit</button>
     </div>
@@ -252,13 +255,13 @@ formjs can be used with [yup](https://github.com/jquense/yup) to validate data i
     const form = useForm({
         email: "",
         firstname: "",
-    }, {schema: userStoreSchema})
+    }, { schema: userStoreSchema })
 
-    const submit = async ()=>{
+    const submit = async () => {
         // validate all methods 
         await form.validate()
-      
-        if(!form.hasErrors){
+
+        if (!form.hasErrors) {
             form.post('/some-endpoints')
         }
     }
@@ -269,7 +272,7 @@ formjs can be used with [yup](https://github.com/jquense/yup) to validate data i
 ```
 
 ## Custom Axios instance
-Sometimes it is required to configure custom request.
+Sometimes it is required to configure a custom request.
 ```js
 import {useForm} from "formjs-vue3"
 import {default as Axios} from "axios";
