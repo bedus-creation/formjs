@@ -8,6 +8,9 @@
     "workspaces": [
         "packages/core",
         "packages/vue2",
-        "playgrounds/vue2"
-    ]
+        "packages/vue3",
+        "playgrounds/vue2",
+        "playgrounds/vue3"
+    ],
+    "version": "1.0.0"
 }

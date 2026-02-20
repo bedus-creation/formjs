@@ -1,5 +1,5 @@
 {
-    "name": "formjs-vue2",
+    "name": "formjs-vue3",
     "version": "2.0.0",
     "type": "module",
     "contributors": [
@@ -34,17 +34,17 @@
         "yup": "^1.0.0"
     },
     "devDependencies": {
-        "@vitejs/plugin-vue2": "^2.2.0",
-        "@vue/test-utils": "^1.3.4",
+        "@vitejs/plugin-vue": "^5.0.0",
+        "@vue/server-renderer": "^3.5.28",
+        "@vue/test-utils": "^2.4.0",
         "jsdom": "^21.1.0",
         "msw": "^1.0.0",
         "typescript": "^4.9.3",
-        "vite": "^3.0.0",
-        "vitest": "^0.15.1",
-        "vue": "^2.7.0",
-        "vue-template-compiler": "^2.7.14"
+        "vite": "^5.0.0",
+        "vitest": "^1.0.0",
+        "vue": "^3.4.0"
     },
     "peerDependencies": {
-        "vue": "^2.7.0"
+        "vue": "^3.0.0"
     }
 }

@@ -1,33 +1,50 @@
-import { Instance, Method, ResponseOption, VisitOptions } from "formjs-core"
 import { AxiosResponse } from "axios"
+import { Instance, Method, ResponseOption, VisitOptions } from "formjs-core"
 import cloneDeep from "lodash.clonedeep"
 import isEqual from "lodash.isequal"
-import { reactive, watch } from 'vue'
+import { reactive, watch } from "vue"
 import { ObjectSchema } from "yup"
 import debounce from "./debounce"
-import { client, http } from "./index";
+import { http } from "./index"
 
 interface FormProps<TForm> {
     isDirty: boolean
     errors: Record<keyof TForm, string>
     hasErrors: boolean
     processing: boolean
+
     data(): TForm
+
     transform(callback: (data: TForm) => object): this
+
     defaults(): this
+
     defaults(field: keyof TForm, value: string): this
+
     defaults(fields: Record<keyof TForm, string>): this
+
     reset(...fields: (keyof TForm)[]): this
+
     setError(field: keyof TForm, value: string): this
+
     setError(errors: Record<keyof TForm, string>): this
+
     clearErrors(...fields: (keyof TForm)[]): this
+
     validate(): void
+
     validate(field: keyof TForm): void
+
     submit(method: Method, url: string, options?: Partial<VisitOptions>): void
+
     get(url: string, options?: Partial<VisitOptions>): void
+
     post(url: string, options?: Partial<VisitOptions>): void
+
     put(url: string, options?: Partial<VisitOptions>): void
+
     delete(url: string, options?: Partial<VisitOptions>): void
+
     call(callback: () => Promise<AxiosResponse<any, any>>, options?: Partial<ResponseOption>): void
 }
 
@@ -36,12 +53,11 @@ type FormOptions<TForm> = {
     schema?: ObjectSchema<Record<keyof TForm, string>>,
     instance?: Instance
 }
-export default function useForm<TForm>(data: TForm, options: FormOptions<TForm>): Form<TForm>
-export default function useForm<TForm>(options: FormOptions<TForm>): Form<TForm>
-export default function useForm<TForm>(data?: TForm): Form<TForm>
-export default function useForm<TForm>(...args: any[]): Form<TForm> {
-    const data = (args.length === 1 && (args[0]?.schema || args[0]?.instance) ? {} : args[0]) || {}
-    const options = (args.length === 1 && (args[0]?.schema || args[0]?.instance) ? args[0] : args[1]) || {}
+
+export default function useForm<TForm>(
+    data: TForm,
+    options?: FormOptions<TForm>
+): Form<TForm> {
     const validationSchema = options.schema
     const instance = options.instance
     let defaults = cloneDeep(data)
@@ -81,11 +97,11 @@ export default function useForm<TForm>(...args: any[]): Form<TForm> {
                 Object.assign(
                     this,
                     Object.keys(clonedDefaults)
-                        .filter((key) => fields.includes(key))
-                        .reduce((carry, key) => {
-                            carry[key] = clonedDefaults[key]
-                            return carry
-                        }, {}),
+                          .filter((key) => fields.includes(key))
+                          .reduce((carry, key) => {
+                              carry[key] = clonedDefaults[key]
+                              return carry
+                          }, {}),
                 )
             }
 

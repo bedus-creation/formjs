@@ -13,4 +13,6 @@ fi
 npm version $1 \
     --workspace=packages/core \
     --workspace=packages/vue2 \
-    --workspace=playgrounds/vue2
+    --workspace=packages/vue3 \
+    --workspace=playgrounds/vue2 \
+    --workspace=playgrounds/vue3
