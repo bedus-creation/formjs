@@ -16,11 +16,17 @@ It's a tool to use to handle form and API calls when building client-side applic
 
 
 ## Installation
+### For Vue 2
 ```bash
 yarn add formjs-vue2
 ```
 
-> It works for both vue 2 & 3
+### For Vue 3
+```bash
+yarn add formjs-vue3
+```
+
+> **Note**: Both packages share the same core functionality, importing and api structure. The examples below use `formjs-vue2`, but work interchangeably with `formjs-vue3` by updating the package import.
 
 ## Uses
 
@@ -48,6 +54,7 @@ However, it's usually easier to use one of formjs's quick shortcut methods. Thes
 
 ```vue
 <script setup>
+    // Or from "formjs-vue3"
     import { http } from "formjs-vue2"
 
     http.get(url, data, options)
@@ -64,6 +71,7 @@ You may use the `data` option to add data to the request.
 
 ```vue
 <script setup>
+    // Or from "formjs-vue3"
     import { http } from "formjs-vue2"
 
     http.visit('/users', {
@@ -183,6 +191,7 @@ The primary use case of formjs is to ease the form handling by reducing amount o
     </div>
 </template>
 <script setup>
+    // Or from "formjs-vue3"
     import { useForm } from "formjs-vue2"
 
     const form = useForm({
@@ -230,6 +239,7 @@ formjs can be used with [yup](https://github.com/jquense/yup) to validate data i
     </div>
 </template>
 <script setup>
+    // Or from "formjs-vue3"
     import { useForm } from "formjs-vue2"
     import { object, string } from "yup"
 

@@ -1,0 +1,21 @@
+{
+    "compilerOptions": {
+        "lib": ["ES2020", "DOM", "DOM.Iterable"],
+        "target": "ES2020",
+        "types": ["node"],
+
+        "declaration": true,
+        "declarationDir": "types",
+
+        "module": "ES2020",
+        "moduleResolution": "Node",
+        "resolveJsonModule": true,
+
+        "useDefineForClassFields": true,
+        "jsx": "preserve",
+        "isolatedModules": true,
+        "esModuleInterop": true,
+        "skipLibCheck": true
+    },
+    "include": ["src/index.ts"]
+}
