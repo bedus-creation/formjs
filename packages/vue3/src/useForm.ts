@@ -1,33 +1,50 @@
-import { Instance, Method, ResponseOption, VisitOptions} from "formjs-core"
-import {AxiosResponse} from "axios"
+import { AxiosResponse } from "axios"
+import { Instance, Method, ResponseOption, VisitOptions } from "formjs-core"
 import cloneDeep from "lodash.clonedeep"
 import isEqual from "lodash.isequal"
-import { reactive, watch } from 'vue'
-import {ObjectSchema} from "yup"
+import { reactive, watch } from "vue"
+import { ObjectSchema } from "yup"
 import debounce from "./debounce"
-import {client, http} from "./index";
+import { http } from "./index"
 
 interface FormProps<TForm> {
     isDirty: boolean
     errors: Record<keyof TForm, string>
     hasErrors: boolean
     processing: boolean
+
     data(): TForm
+
     transform(callback: (data: TForm) => object): this
+
     defaults(): this
+
     defaults(field: keyof TForm, value: string): this
+
     defaults(fields: Record<keyof TForm, string>): this
+
     reset(...fields: (keyof TForm)[]): this
+
     setError(field: keyof TForm, value: string): this
+
     setError(errors: Record<keyof TForm, string>): this
+
     clearErrors(...fields: (keyof TForm)[]): this
+
     validate(): void
+
     validate(field: keyof TForm): void
+
     submit(method: Method, url: string, options?: Partial<VisitOptions>): void
+
     get(url: string, options?: Partial<VisitOptions>): void
+
     post(url: string, options?: Partial<VisitOptions>): void
+
     put(url: string, options?: Partial<VisitOptions>): void
+
     delete(url: string, options?: Partial<VisitOptions>): void
+
     call(callback: () => Promise<AxiosResponse<any, any>>, options?: Partial<ResponseOption>): void
 }
 
@@ -36,11 +53,11 @@ type FormOptions<TForm> = {
     schema?: ObjectSchema<Record<keyof TForm, string>>,
     instance?: Instance
 }
-export default function useForm<TForm>(data: TForm): Form<TForm>
-export default function useForm<TForm>(data: TForm, options: FormOptions<TForm>): Form<TForm>
-export default function useForm<TForm>(...args): Form<TForm> {
-    const data = args[0] || {}
-    const options = args[1] || {}
+
+export default function useForm<TForm>(
+    data: TForm,
+    options?: FormOptions<TForm>
+): Form<TForm> {
     const validationSchema = options.schema
     const instance = options.instance
     let defaults = cloneDeep(data)
@@ -67,7 +84,7 @@ export default function useForm<TForm>(...args): Form<TForm> {
             if (typeof key === "undefined") {
                 defaults = this.data()
             } else {
-                defaults = Object.assign({}, cloneDeep(defaults), value ? {[key]: value} : key)
+                defaults = Object.assign({}, cloneDeep(defaults), value ? { [key]: value } : key)
             }
 
             return this
@@ -80,18 +97,18 @@ export default function useForm<TForm>(...args): Form<TForm> {
                 Object.assign(
                     this,
                     Object.keys(clonedDefaults)
-                        .filter((key) => fields.includes(key))
-                        .reduce((carry, key) => {
-                            carry[key] = clonedDefaults[key]
-                            return carry
-                        }, {}),
+                          .filter((key) => fields.includes(key))
+                          .reduce((carry, key) => {
+                              carry[key] = clonedDefaults[key]
+                              return carry
+                          }, {}),
                 )
             }
 
             return this
         },
         setError(key, value) {
-            Object.assign(this.errors, value ? {[key]: value} : key)
+            Object.assign(this.errors, value ? { [key]: value } : key)
 
             this.hasErrors = Object.keys(this.errors).length > 0
 
@@ -101,7 +118,7 @@ export default function useForm<TForm>(...args): Form<TForm> {
             this.errors = Object.keys(this.errors).reduce(
                 (carry, field) => ({
                     ...carry,
-                    ...(fields.length > 0 && !fields.includes(field) ? {[field]: this.errors[field]} : {}),
+                    ...(fields.length > 0 && !fields.includes(field) ? { [field]: this.errors[field] } : {}),
                 }),
                 {},
             )
@@ -117,7 +134,7 @@ export default function useForm<TForm>(...args): Form<TForm> {
             }
 
             try {
-                await validationSchema.validate(this.data(), {abortEarly: false})
+                await validationSchema.validate(this.data(), { abortEarly: false })
                 this.clearErrors()
             } catch (error) {
                 if (!field) {
@@ -182,7 +199,7 @@ export default function useForm<TForm>(...args): Form<TForm> {
                 },
             }
             if (method === "delete") {
-                http.delete(url, {..._options, data})
+                http.delete(url, { ..._options, data })
             } else {
                 http[method](url, data, _options)
             }

@@ -2,8 +2,8 @@
     <div class="px-4 sm:px-6 lg:px-8">
         <div class="sm:flex sm:items-center">
             <div class="sm:flex-auto">
-                <h1 class="text-xl font-semibold text-gray-900">Users</h1>
-                <p class="mt-2 text-sm text-gray-700">A list of all the users in your account including their name, title, email and role.</p>
+                <h1 class="text-2xl font-semibold text-gray-900">Users</h1>
+                <p class="mt-2 text-gray-700">A list of all the users in your account including their name, title, email and role.</p>
             </div>
             <div class="mt-4 sm:mt-0 sm:ml-16 sm:flex-none">
                 <a href="/create"
@@ -34,16 +34,13 @@
                 </div>
             </div>
         </div>
-
-        <UserItem/>
     </div>
 </template>
 
 <script setup>
     import { onMounted } from "vue"
     import useUser from "../composable/useUser.js"
-    import { useUserStore } from "../stores/users.js"
-    import UserItem from "./UserItem.vue"
+    import { useUserStore } from "@/stores/users"
 
     const { getUsers, getUsersError, getError } = useUser()
     const userStore = useUserStore()

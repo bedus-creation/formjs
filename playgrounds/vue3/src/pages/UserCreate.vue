@@ -19,7 +19,7 @@
                 <input type="text"
                        v-model="form.name"
                        class="mt-2 input"
-                       @blur="form.validate('name')"/>
+                       @input="form.validate('name')"/>
                 <span v-if="form.errors.name"
                       class="text-red-500"
                       v-text="form.errors.name"/>
@@ -29,7 +29,7 @@
                 <label class="block text-sm font-medium text-gray-700">Email</label>
                 <input type="text"
                        v-model="form.email"
-                       @blur="form.validate('email')"
+                       @input="form.validate('email')"
                        class="mt-2 input"/>
                 <span v-if="form.errors.email"
                       class="text-red-500"

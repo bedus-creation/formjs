@@ -1,19 +1,21 @@
 import { http, useForm } from "formjs-vue3"
 import { object, string } from "yup"
-import { useUserStore } from "../stores/users.js"
+import { useUserStore } from "@/stores/users"
 
 export default function useUser() {
     const userStore = useUserStore()
 
     const userCreateSchema = object({
-        name: string().required().min(10),
-        email: string().required().email().min(10),
+        name: string().required().min(3),
+        email: string().required().email(),
     })
 
     const form = useForm({
         name: null,
         email: null,
-    }, userCreateSchema)
+    }, {
+        schema: userCreateSchema,
+    })
 
     const getUsers = () => {
         http.get("/api/users", {}, {
